@@ -1,11 +1,12 @@
 #include <iostream>
 #include <any>
+#include <typeinfo>
 
 #include "SecondaryFunction.h"
 #include "Parser.h"
 
 template <class T>
-void prinToCons(Parser& const, const std::any&);
+void prinToCons(Parser&, const std::any&);
 
 int main(int argc, char** argv)
 {
@@ -29,10 +30,14 @@ int main(int argc, char** argv)
 		Parser parser("../test2.ini");
 		std::any varValue;
 		
+
 		{
 			using myType_t = double;
 			varValue = parser.get_value<myType_t>("Section1.var1");
 			prinToCons<myType_t>(parser, varValue);
+
+
+			std::cout << varValue.type().name() << "\n\n";
 		}
 
 		{
@@ -75,7 +80,7 @@ int main(int argc, char** argv)
 }
 
 template <class T>
-void prinToCons(Parser& const par, const std::any& var)
+void prinToCons(Parser& par, const std::any& var)
 {
 	std::cout << "  <"
 		<< par.getSection() << "."
