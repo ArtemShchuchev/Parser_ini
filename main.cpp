@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 			prinToCons<myType_t>(parser, varValue);
 
 
-			std::cout << varValue.type().name() << "\n\n";
+			//std::cout << varValue.type().name() << "\n\n";
 		}
 
 		{
