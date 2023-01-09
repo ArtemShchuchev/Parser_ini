@@ -1,24 +1,24 @@
 #include "SecondaryFunction.h"
 
-// заголовок
+// Р·Р°РіРѕР»РѕРІРѕРє
 void printHeader()
 {
 	using namespace std;
-	setlocale(LC_ALL, "");				// задаем русский текст
-	//system("chcp UTF-8");				// настраиваем кодировку консоли
-	system("chcp ANSI");				// настраиваем кодировку консоли
-	//system("chcp 1251");				// настраиваем кодировку консоли
+	setlocale(LC_ALL, "ru_RU.UTF-8");				// Р·Р°РґР°РµРј СЂСѓСЃСЃРєРёР№ С‚РµРєСЃС‚
+	//system("chcp UTF-8");				// РЅР°СЃС‚СЂР°РёРІР°РµРј РєРѕРґРёСЂРѕРІРєСѓ РєРѕРЅСЃРѕР»Рё
+	//system("chcp ANSI");				// РЅР°СЃС‚СЂР°РёРІР°РµРј РєРѕРґРёСЂРѕРІРєСѓ РєРѕРЅСЃРѕР»Рё
+	//system("chcp 1251");				// РЅР°СЃС‚СЂР°РёРІР°РµРј РєРѕРґРёСЂРѕРІРєСѓ РєРѕРЅСЃРѕР»Рё
 	//SetConsoleOutputCP(CP_UTF8);
 	
-	//SetConsoleTitleA("Парсер INI-файлов");
+	//SetConsoleTitleA("РџР°СЂСЃРµСЂ INI-С„Р°Р№Р»РѕРІ");
 	std::system("cls");
 	consoleCol(11);
-	cout << "Курсовой проект \"Парсер INI-файлов\"\n"
+	cout << "РљСѓСЂСЃРѕРІРѕР№ РїСЂРѕРµРєС‚ \"РџР°СЂСЃРµСЂ INI-С„Р°Р№Р»РѕРІ\"\n"
 		<< "-----------------------------------\n" << endl;
 	consoleCol();
 }
 
-void consoleCol(WORD color) // по умолчанию белый на черном фоне
+void consoleCol(WORD color) // РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ Р±РµР»С‹Р№ РЅР° С‡РµСЂРЅРѕРј С„РѕРЅРµ
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }

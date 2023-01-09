@@ -9,36 +9,36 @@
 
 #include "..\SecondFunk\SecondaryFunction.h"
 
-// создал тип для возврата "variant"
+// СЃРѕР·РґР°Р» С‚РёРї РґР»СЏ РІРѕР·РІСЂР°С‚Р° "variant"
 using parseVar_t = std::variant<int, double, std::string>;
 
 class Parser
 {
 protected:
 private:
-	std::string fileName;			// имя файла
-	std::string varName, secName;	// искомые переменная и секция
+	std::string fileName;			// РёРјСЏ С„Р°Р№Р»Р°
+	std::string varName, secName;	// РёСЃРєРѕРјС‹Рµ РїРµСЂРµРјРµРЅРЅР°СЏ Рё СЃРµРєС†РёСЏ
 	std::vector<std::string> buf;
 
 	void deleteSpace(std::string& str);
 
-	// преобразование строки в число типа <T>
+	// РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ С‡РёСЃР»Рѕ С‚РёРїР° <T>
 	template <typename T>
 	T fromChar(std::string s);
-	// специализация для std::string
+	// СЃРїРµС†РёР°Р»РёР·Р°С†РёСЏ РґР»СЏ std::string
 	template <>
 	std::string fromChar(std::string s);
-	// печать буфера в консоль
+	// РїРµС‡Р°С‚СЊ Р±СѓС„РµСЂР° РІ РєРѕРЅСЃРѕР»СЊ
 	void printBuf(std::string_view s);
-	// убираю лишние, остаются строки содержащие искомую переменную
+	// СѓР±РёСЂР°СЋ Р»РёС€РЅРёРµ, РѕСЃС‚Р°СЋС‚СЃСЏ СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‰РёРµ РёСЃРєРѕРјСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
 	void someCleanBuf();
 
 public:
-	// принимает rvalue, типа "строка" (временный объект)
+	// РїСЂРёРЅРёРјР°РµС‚ rvalue, С‚РёРїР° "СЃС‚СЂРѕРєР°" (РІСЂРµРјРµРЅРЅС‹Р№ РѕР±СЉРµРєС‚)
 	Parser(std::string&& _fileName);
-	// принимает lvalue, типа переменная
+	// РїСЂРёРЅРёРјР°РµС‚ lvalue, С‚РёРїР° РїРµСЂРµРјРµРЅРЅР°СЏ
 	Parser(std::string& _fileName);
-	// перегружаю вывод в поток для типа <parseVar_t>
+	// РїРµСЂРµРіСЂСѓР¶Р°СЋ РІС‹РІРѕРґ РІ РїРѕС‚РѕРє РґР»СЏ С‚РёРїР° <parseVar_t>
 	friend std::ostream& operator<< (std::ostream& out, const parseVar_t& var);
 
 	template <typename T>
@@ -50,7 +50,7 @@ public:
 
 
 
-// преобразование строки в число типа <T>
+// РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃС‚СЂРѕРєРё РІ С‡РёСЃР»Рѕ С‚РёРїР° <T>
 template<typename T>
 inline T Parser::fromChar(std::string s)
 {
@@ -59,31 +59,31 @@ inline T Parser::fromChar(std::string s)
 	if (ec == std::errc()) return value;
 	else if (ec == std::errc::invalid_argument)
 	{
-		someCleanBuf(); // убираю лишние, остаются строки содержащие искомую переменную
-		printBuf("Текущее значение переменной...");
-		throw std::runtime_error("(fromChar) Переменная <" + secName + '.' + varName + "> не содержит числа!");
+		someCleanBuf(); // СѓР±РёСЂР°СЋ Р»РёС€РЅРёРµ, РѕСЃС‚Р°СЋС‚СЃСЏ СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‰РёРµ РёСЃРєРѕРјСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
+		printBuf("РўРµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№...");
+		throw std::runtime_error("(fromChar) РџРµСЂРµРјРµРЅРЅР°СЏ <" + secName + '.' + varName + "> РЅРµ СЃРѕРґРµСЂР¶РёС‚ С‡РёСЃР»Р°!");
 	}
 	else if (ec == std::errc::result_out_of_range)
 	{
-		someCleanBuf(); // убираю лишние, остаются строки содержащие искомую переменную
-		printBuf("Текущее значение переменной...");
-		throw std::out_of_range("(fromChar) Значение переменной <" + secName + '.' + varName + "> превышает диапазон!");
+		someCleanBuf(); // СѓР±РёСЂР°СЋ Р»РёС€РЅРёРµ, РѕСЃС‚Р°СЋС‚СЃСЏ СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‰РёРµ РёСЃРєРѕРјСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
+		printBuf("РўРµРєСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№...");
+		throw std::out_of_range("(fromChar) Р—РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№ <" + secName + '.' + varName + "> РїСЂРµРІС‹С€Р°РµС‚ РґРёР°РїР°Р·РѕРЅ!");
 	}
-	else throw std::runtime_error("(fromChar) Не известная ошибка! Переменная <" + secName + '.' + varName + ">!");
+	else throw std::runtime_error("(fromChar) РќРµ РёР·РІРµСЃС‚РЅР°СЏ РѕС€РёР±РєР°! РџРµСЂРµРјРµРЅРЅР°СЏ <" + secName + '.' + varName + ">!");
 }
-// специализация для std::string
+// СЃРїРµС†РёР°Р»РёР·Р°С†РёСЏ РґР»СЏ std::string
 template <>
 std::string Parser::fromChar(std::string s)
 {
 	return std::move(s);
 }
 
-// ищет и возвращает переменную Т типа
+// РёС‰РµС‚ Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРµРјРµРЅРЅСѓСЋ Рў С‚РёРїР°
 template<typename T>
 inline parseVar_t Parser::get_value(std::string _findStr)
 {
 	secName = std::move(_findStr);
-	deleteSpace(secName);	// удаляю возможные пробелы в строке поиска
+	deleteSpace(secName);	// СѓРґР°Р»СЏСЋ РІРѕР·РјРѕР¶РЅС‹Рµ РїСЂРѕР±РµР»С‹ РІ СЃС‚СЂРѕРєРµ РїРѕРёСЃРєР°
 
 	auto dotPos = secName.find('.');
 	if (dotPos != std::string::npos)
@@ -91,16 +91,16 @@ inline parseVar_t Parser::get_value(std::string _findStr)
 		varName = secName.substr(dotPos + 1);
 		secName = secName.substr(0, dotPos);
 	}
-	else throw std::runtime_error("Аргумент get_value, ожидается точка разделитель (секция.переменная)!");
+	else throw std::runtime_error("РђСЂРіСѓРјРµРЅС‚ get_value, РѕР¶РёРґР°РµС‚СЃСЏ С‚РѕС‡РєР° СЂР°Р·РґРµР»РёС‚РµР»СЊ (СЃРµРєС†РёСЏ.РїРµСЂРµРјРµРЅРЅР°СЏ)!");
 	if (secName.empty())
-		throw std::runtime_error("Метод get_value не получил имя секции!");
+		throw std::runtime_error("РњРµС‚РѕРґ get_value РЅРµ РїРѕР»СѓС‡РёР» РёРјСЏ СЃРµРєС†РёРё!");
 	if (varName.empty())
-		throw std::runtime_error("Метод get_value не получил имя переменной!");
+		throw std::runtime_error("РњРµС‚РѕРґ get_value РЅРµ РїРѕР»СѓС‡РёР» РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№!");
 
 
-	bool notFindKey_F(true);		// флаг: имя переменной не найдено
-	bool notFindSection_F(true);	// флаг: секция не найдена
-	std::string varValue;			// строка содержащая значение переменной
+	bool notFindKey_F(true);		// С„Р»Р°Рі: РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№ РЅРµ РЅР°Р№РґРµРЅРѕ
+	bool notFindSection_F(true);	// С„Р»Р°Рі: СЃРµРєС†РёСЏ РЅРµ РЅР°Р№РґРµРЅР°
+	std::string varValue;			// СЃС‚СЂРѕРєР° СЃРѕРґРµСЂР¶Р°С‰Р°СЏ Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
 
 	std::ifstream file(fileName);
 	if (file.is_open())
@@ -108,122 +108,122 @@ inline parseVar_t Parser::get_value(std::string _findStr)
 		unsigned int lineNr{ 0 };
 		if (!buf.empty()) buf.clear();
 		std::string line;
-		bool findVariable_f(false);	// флаг: искать переменную
+		bool findVariable_f(false);	// С„Р»Р°Рі: РёСЃРєР°С‚СЊ РїРµСЂРµРјРµРЅРЅСѓСЋ
 
 		while (std::getline(file, line))
 		{
-			++lineNr;	// считаю строчки, начиная с 1ой
-			if (line.empty()) continue;	// пустые строки, там искать нечего
+			++lineNr;	// СЃС‡РёС‚Р°СЋ СЃС‚СЂРѕС‡РєРё, РЅР°С‡РёРЅР°СЏ СЃ 1РѕР№
+			if (line.empty()) continue;	// РїСѓСЃС‚С‹Рµ СЃС‚СЂРѕРєРё, С‚Р°Рј РёСЃРєР°С‚СЊ РЅРµС‡РµРіРѕ
 
 
-			// ищу секцию
-			// ищу позицию начала комментария
+			// РёС‰Сѓ СЃРµРєС†РёСЋ
+			// РёС‰Сѓ РїРѕР·РёС†РёСЋ РЅР°С‡Р°Р»Р° РєРѕРјРјРµРЅС‚Р°СЂРёСЏ
 			const auto commentPos = line.find_first_of(';');
-			// следующая позиция после '[', если не нашел, то 0, т.к. (-1 + 1)
+			// СЃР»РµРґСѓСЋС‰Р°СЏ РїРѕР·РёС†РёСЏ РїРѕСЃР»Рµ '[', РµСЃР»Рё РЅРµ РЅР°С€РµР», С‚Рѕ 0, С‚.Рє. (-1 + 1)
 			const auto openPos = line.find_first_of('[') + 1;
-			// если '[' - найдена и находится раньше символа ';'
+			// РµСЃР»Рё '[' - РЅР°Р№РґРµРЅР° Рё РЅР°С…РѕРґРёС‚СЃСЏ СЂР°РЅСЊС€Рµ СЃРёРјРІРѕР»Р° ';'
 			if (openPos != 0 && openPos <= commentPos)
 			{
-				// ищу позицию ']' после '[' + 1, т.е. между [] есть хоть 1 символ
+				// РёС‰Сѓ РїРѕР·РёС†РёСЋ ']' РїРѕСЃР»Рµ '[' + 1, С‚.Рµ. РјРµР¶РґСѓ [] РµСЃС‚СЊ С…РѕС‚СЊ 1 СЃРёРјРІРѕР»
 				const auto closePos = line.find_first_of(']', openPos + 1);
 
-				// если ']' - найдена и между [] есть хоть 1 символ
-				// и комментарии расположены не внутри []
+				// РµСЃР»Рё ']' - РЅР°Р№РґРµРЅР° Рё РјРµР¶РґСѓ [] РµСЃС‚СЊ С…РѕС‚СЊ 1 СЃРёРјРІРѕР»
+				// Рё РєРѕРјРјРµРЅС‚Р°СЂРёРё СЂР°СЃРїРѕР»РѕР¶РµРЅС‹ РЅРµ РІРЅСѓС‚СЂРё []
 				if (closePos != std::string::npos && closePos < commentPos)
 				{
-					std::string section = line.substr(openPos, closePos - openPos);//(позиция, кол-во)
+					std::string section = line.substr(openPos, closePos - openPos);//(РїРѕР·РёС†РёСЏ, РєРѕР»-РІРѕ)
 
-					if (section == secName)	// нашел нужную секцию
+					if (section == secName)	// РЅР°С€РµР» РЅСѓР¶РЅСѓСЋ СЃРµРєС†РёСЋ
 					{
-						// готовлю буфер для хранения переменных из найденной секции
+						// РіРѕС‚РѕРІР»СЋ Р±СѓС„РµСЂ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РїРµСЂРµРјРµРЅРЅС‹С… РёР· РЅР°Р№РґРµРЅРЅРѕР№ СЃРµРєС†РёРё
 						if (!buf.empty() && notFindSection_F) buf.clear();
-						findVariable_f = true;		// теперь ищу переменную
-						notFindSection_F = false;	// секция найдена, сбрасываю флаг
+						findVariable_f = true;		// С‚РµРїРµСЂСЊ РёС‰Сѓ РїРµСЂРµРјРµРЅРЅСѓСЋ
+						notFindSection_F = false;	// СЃРµРєС†РёСЏ РЅР°Р№РґРµРЅР°, СЃР±СЂР°СЃС‹РІР°СЋ С„Р»Р°Рі
 					}
 					else
 					{
-						findVariable_f = false;		// в этой секции переменные НЕ ищем
-						// если нужную секцию не нашел, сохраняю список секций в файле
+						findVariable_f = false;		// РІ СЌС‚РѕР№ СЃРµРєС†РёРё РїРµСЂРµРјРµРЅРЅС‹Рµ РќР• РёС‰РµРј
+						// РµСЃР»Рё РЅСѓР¶РЅСѓСЋ СЃРµРєС†РёСЋ РЅРµ РЅР°С€РµР», СЃРѕС…СЂР°РЅСЏСЋ СЃРїРёСЃРѕРє СЃРµРєС†РёР№ РІ С„Р°Р№Р»Рµ
 						if (notFindSection_F) buf.push_back(section);
 					}
 				}
 				else
 				{
-					throw std::runtime_error("Не верный синтаксис в строке: "
+					throw std::runtime_error("РќРµ РІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ РІ СЃС‚СЂРѕРєРµ: "
 						+ std::to_string(lineNr) + " -> " + line);
 				}
-				continue;	// нахожусь внутри строки содержащей имя секции, больше тут нечего искать
+				continue;	// РЅР°С…РѕР¶СѓСЃСЊ РІРЅСѓС‚СЂРё СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‰РµР№ РёРјСЏ СЃРµРєС†РёРё, Р±РѕР»СЊС€Рµ С‚СѓС‚ РЅРµС‡РµРіРѕ РёСЃРєР°С‚СЊ
 			}
 
 
-			// если секцию нашел, ищу переменную
+			// РµСЃР»Рё СЃРµРєС†РёСЋ РЅР°С€РµР», РёС‰Сѓ РїРµСЂРµРјРµРЅРЅСѓСЋ
 			if (findVariable_f)
 			{
-				// сохраняю строку секции
-				auto str = "Строка: " + std::to_string(lineNr) + " ->" + line;
-				buf.push_back(str); // сохраняю строку в векторе
+				// СЃРѕС…СЂР°РЅСЏСЋ СЃС‚СЂРѕРєСѓ СЃРµРєС†РёРё
+				auto str = "РЎС‚СЂРѕРєР°: " + std::to_string(lineNr) + " ->" + line;
+				buf.push_back(str); // СЃРѕС…СЂР°РЅСЏСЋ СЃС‚СЂРѕРєСѓ РІ РІРµРєС‚РѕСЂРµ
 
-				// удаляю комментарии
+				// СѓРґР°Р»СЏСЋ РєРѕРјРјРµРЅС‚Р°СЂРёРё
 				line.erase(std::find(line.begin(), line.end(), ';'), line.end());
 
-				// ищу разделитель '='
+				// РёС‰Сѓ СЂР°Р·РґРµР»РёС‚РµР»СЊ '='
 				const auto delimeterPos = line.find('=');
 				if (delimeterPos != std::string::npos)
 				{
-					// разделитель '=' найден, значит эта строка содержит переменную
+					// СЂР°Р·РґРµР»РёС‚РµР»СЊ '=' РЅР°Р№РґРµРЅ, Р·РЅР°С‡РёС‚ СЌС‚Р° СЃС‚СЂРѕРєР° СЃРѕРґРµСЂР¶РёС‚ РїРµСЂРµРјРµРЅРЅСѓСЋ
 
-					std::string key = line.substr(0, delimeterPos);	// строка содержащая имя переменной
-					deleteSpace(key);	// удаляю возможные пробелы в ключе
-					if (key == varName) // ключ соответствует искомому?
+					std::string key = line.substr(0, delimeterPos);	// СЃС‚СЂРѕРєР° СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№
+					deleteSpace(key);	// СѓРґР°Р»СЏСЋ РІРѕР·РјРѕР¶РЅС‹Рµ РїСЂРѕР±РµР»С‹ РІ РєР»СЋС‡Рµ
+					if (key == varName) // РєР»СЋС‡ СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓРµС‚ РёСЃРєРѕРјРѕРјСѓ?
 					{
-						notFindKey_F = false;	// переменная нашлась
-						// создаю строку от '=' (не включая) до конца строки
+						notFindKey_F = false;	// РїРµСЂРµРјРµРЅРЅР°СЏ РЅР°С€Р»Р°СЃСЊ
+						// СЃРѕР·РґР°СЋ СЃС‚СЂРѕРєСѓ РѕС‚ '=' (РЅРµ РІРєР»СЋС‡Р°СЏ) РґРѕ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё
 						varValue = line.substr(delimeterPos + 1);
 
-						if (varValue.empty()) continue;	// переменная не имеет значения
-						// ищу 1ый символ не ' ' и не '\t', и вырезаю их из строки (____Строка)
+						if (varValue.empty()) continue;	// РїРµСЂРµРјРµРЅРЅР°СЏ РЅРµ РёРјРµРµС‚ Р·РЅР°С‡РµРЅРёСЏ
+						// РёС‰Сѓ 1С‹Р№ СЃРёРјРІРѕР» РЅРµ ' ' Рё РЅРµ '\t', Рё РІС‹СЂРµР·Р°СЋ РёС… РёР· СЃС‚СЂРѕРєРё (____РЎС‚СЂРѕРєР°)
 						varValue = varValue.substr(varValue.find_first_not_of(" \t"));
-						// ищу 1ый символ не ' ' и не '\t' с конца строки, и вырезаю их из строки (строкА____)
+						// РёС‰Сѓ 1С‹Р№ СЃРёРјРІРѕР» РЅРµ ' ' Рё РЅРµ '\t' СЃ РєРѕРЅС†Р° СЃС‚СЂРѕРєРё, Рё РІС‹СЂРµР·Р°СЋ РёС… РёР· СЃС‚СЂРѕРєРё (СЃС‚СЂРѕРєРђ____)
 						varValue = varValue.substr(0, varValue.find_last_not_of(" \t") + 1);
 					}
 				}
 				else
 				{
-					// эта строка не содержит переменной или тут ошибка синтаксиса
-					// возможно это строка с комменариями, поэтому удаляю комментарии
+					// СЌС‚Р° СЃС‚СЂРѕРєР° РЅРµ СЃРѕРґРµСЂР¶РёС‚ РїРµСЂРµРјРµРЅРЅРѕР№ РёР»Рё С‚СѓС‚ РѕС€РёР±РєР° СЃРёРЅС‚Р°РєСЃРёСЃР°
+					// РІРѕР·РјРѕР¶РЅРѕ СЌС‚Рѕ СЃС‚СЂРѕРєР° СЃ РєРѕРјРјРµРЅР°СЂРёСЏРјРё, РїРѕСЌС‚РѕРјСѓ СѓРґР°Р»СЏСЋ РєРѕРјРјРµРЅС‚Р°СЂРёРё
 					line.erase(std::find(line.begin(), line.end(), ';'), line.end());
-					deleteSpace(line);	// также удудаляю пробелы, табуляцию...
-					if (line.empty())	// значит - это строка с комментариями или пустая
+					deleteSpace(line);	// С‚Р°РєР¶Рµ СѓРґСѓРґР°Р»СЏСЋ РїСЂРѕР±РµР»С‹, С‚Р°Р±СѓР»СЏС†РёСЋ...
+					if (line.empty())	// Р·РЅР°С‡РёС‚ - СЌС‚Рѕ СЃС‚СЂРѕРєР° СЃ РєРѕРјРјРµРЅС‚Р°СЂРёСЏРјРё РёР»Рё РїСѓСЃС‚Р°СЏ
 					{
-						buf.pop_back();	// убираю лишнюю строку
-						continue;		// пропускаю
+						buf.pop_back();	// СѓР±РёСЂР°СЋ Р»РёС€РЅСЋСЋ СЃС‚СЂРѕРєСѓ
+						continue;		// РїСЂРѕРїСѓСЃРєР°СЋ
 					}
-					throw std::runtime_error("Не верный синтаксис. " + buf.back());
+					throw std::runtime_error("РќРµ РІРµСЂРЅС‹Р№ СЃРёРЅС‚Р°РєСЃРёСЃ. " + buf.back());
 				}
 			}
 		}
-		file.close();	// не очень нужная строчка
+		file.close();	// РЅРµ РѕС‡РµРЅСЊ РЅСѓР¶РЅР°СЏ СЃС‚СЂРѕС‡РєР°
 	}
-	else throw std::runtime_error("Не могу открыть файл: " + fileName);
+	else throw std::runtime_error("РќРµ РјРѕРіСѓ РѕС‚РєСЂС‹С‚СЊ С„Р°Р№Р»: " + fileName);
 
 	if (notFindSection_F)
 	{
-		printBuf("Список найденых секций...");
-		throw std::runtime_error("Файл: " + fileName + " не содержит секцию: " + secName);
+		printBuf("РЎРїРёСЃРѕРє РЅР°Р№РґРµРЅС‹С… СЃРµРєС†РёР№...");
+		throw std::runtime_error("Р¤Р°Р№Р»: " + fileName + " РЅРµ СЃРѕРґРµСЂР¶РёС‚ СЃРµРєС†РёСЋ: " + secName);
 	}
 	if (notFindKey_F)
 	{
-		printBuf("Список переменных в секции: " + secName);
-		throw std::runtime_error("Секция: " + secName + ", не содержит переменную: " + varName + "!");
+		printBuf("РЎРїРёСЃРѕРє РїРµСЂРµРјРµРЅРЅС‹С… РІ СЃРµРєС†РёРё: " + secName);
+		throw std::runtime_error("РЎРµРєС†РёСЏ: " + secName + ", РЅРµ СЃРѕРґРµСЂР¶РёС‚ РїРµСЂРµРјРµРЅРЅСѓСЋ: " + varName + "!");
 	}
 	if (varValue.empty())
 	{
-		printBuf("Список переменных в секции: " + secName);
-		throw std::runtime_error("Переменная " + secName + '.' + varName + " не имеет значения!");
+		printBuf("РЎРїРёСЃРѕРє РїРµСЂРµРјРµРЅРЅС‹С… РІ СЃРµРєС†РёРё: " + secName);
+		throw std::runtime_error("РџРµСЂРµРјРµРЅРЅР°СЏ " + secName + '.' + varName + " РЅРµ РёРјРµРµС‚ Р·РЅР°С‡РµРЅРёСЏ!");
 	}
 
-	// перемещаю std::string, в функцию fromChar<T>
-	// которая в свою очередь, отдает результат в
+	// РїРµСЂРµРјРµС‰Р°СЋ std::string, РІ С„СѓРЅРєС†РёСЋ fromChar<T>
+	// РєРѕС‚РѕСЂР°СЏ РІ СЃРІРѕСЋ РѕС‡РµСЂРµРґСЊ, РѕС‚РґР°РµС‚ СЂРµР·СѓР»СЊС‚Р°С‚ РІ
 	// std::variant<int, double, std::string>  -> parseVar_t
 	return fromChar<T>(std::move(varValue));
 }

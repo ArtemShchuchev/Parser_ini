@@ -10,19 +10,19 @@ int main(int argc, char** argv)
 	/*
 	if (argc != 4)
 	{
-		std::cout << "Èñïîëüçîâàíèå: " << argv[0] << " <file.ini> <section> <parameter>" << std::endl;
+		std::cout << "Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ: " << argv[0] << " <file.ini> <section> <parameter>" << std::endl;
 		return 0;
 	}
 	std::ifstream in(argv[1]);
 	if (!in)
 	{
-		std::cout << "Íå ìîãó îòêðûòü ôàéë \"" << argv[1] << '\"' << std::endl;
+		std::cout << "ÐÐµ Ð¼Ð¾Ð³Ñƒ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚ÑŒ Ñ„Ð°Ð¹Ð» \"" << argv[1] << '\"' << std::endl;
 		return 1;
 	}
 	*/
 	try
 	{
-		// ëÿìáäà äëÿ âûâîäà â êîíñîëü
+		// Ð»ÑÐ¼Ð±Ð´Ð° Ð´Ð»Ñ Ð²Ñ‹Ð²Ð¾Ð´Ð° Ð² ÐºÐ¾Ð½ÑÐ¾Ð»ÑŒ
 		auto print_lambda = [](Parser& par, const parseVar_t& var)
 		{
 			std::cout << "  <"
@@ -48,32 +48,32 @@ int main(int argc, char** argv)
 	catch (const std::out_of_range& err)
 	{
 		consoleCol(12);
-		std::cout << "\nÎøèáêà! " << err.what() << "\n\n";
+		std::cout << "\nÐžÑˆÐ¸Ð±ÐºÐ°! " << err.what() << "\n\n";
 		consoleCol();
 	}
 	catch (const std::bad_alloc& err)
 	{
-		// îáðàáîòêà îøèáêè âûäåëåíèÿ ïàìÿòè
+		// Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð¾ÑˆÐ¸Ð±ÐºÐ¸ Ð²Ñ‹Ð´ÐµÐ»ÐµÐ½Ð¸Ñ Ð¿Ð°Ð¼ÑÑ‚Ð¸
 		consoleCol(12);
-		std::cout << "\nÎøèáêà! " << err.what() << "\n\n";
+		std::cout << "\nÐžÑˆÐ¸Ð±ÐºÐ°! " << err.what() << "\n\n";
 		consoleCol();
 	}
 	catch (const std::runtime_error& err)
 	{
 		consoleCol(12);
-		std::cout << "\nÎøèáêà! " << err.what() << "\n\n";
+		std::cout << "\nÐžÑˆÐ¸Ð±ÐºÐ°! " << err.what() << "\n\n";
 		consoleCol();
 	}
 	catch (const std::bad_variant_access& err)
 	{
 		consoleCol(12);
-		std::cout << "\nÎøèáêà! " << err.what() << "\n\n";
+		std::cout << "\nÐžÑˆÐ¸Ð±ÐºÐ°! " << err.what() << "\n\n";
 		consoleCol();
 	}
 	catch (...)
 	{
 		consoleCol(12);
-		std::cout << "\nÊàêàÿ-òî îøèáêà!" << "\n\n";
+		std::cout << "\nÐšÐ°ÐºÐ°Ñ-Ñ‚Ð¾ Ð¾ÑˆÐ¸Ð±ÐºÐ°!" << "\n\n";
 		consoleCol();
 	}
 

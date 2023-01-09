@@ -5,7 +5,7 @@ void Parser::deleteSpace(std::string& str)
 	str.erase(std::remove_if(str.begin(), str.end(), isspace), str.end());
 }
 
-// печать буфера в консоль
+// РїРµС‡Р°С‚СЊ Р±СѓС„РµСЂР° РІ РєРѕРЅСЃРѕР»СЊ
 void Parser::printBuf(std::string_view s)
 {
 	consoleCol(14);
@@ -14,15 +14,15 @@ void Parser::printBuf(std::string_view s)
 	consoleCol();
 }
 
-// убираю лишние, остаются строки содержащие искомую переменную
+// СѓР±РёСЂР°СЋ Р»РёС€РЅРёРµ, РѕСЃС‚Р°СЋС‚СЃСЏ СЃС‚СЂРѕРєРё СЃРѕРґРµСЂР¶Р°С‰РёРµ РёСЃРєРѕРјСѓСЋ РїРµСЂРµРјРµРЅРЅСѓСЋ
 void Parser::someCleanBuf()
 {
 	for (auto it = buf.begin(); it != buf.end(); )
 	{
 		std::string line = *it;
-		// удаляю комментарии
+		// СѓРґР°Р»СЏСЋ РєРѕРјРјРµРЅС‚Р°СЂРёРё
 		line.erase(std::find(line.begin(), line.end(), ';'), line.end());
-		// удаляю пробелы
+		// СѓРґР°Р»СЏСЋ РїСЂРѕР±РµР»С‹
 		deleteSpace(line);
 
 		if (line.find(varName) != std::string::npos) ++it;
@@ -38,19 +38,19 @@ Parser::Parser(std::string& _fileName) : fileName(std::move(_fileName))
 {
 }
 
-// возвращает имя секции
+// РІРѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ СЃРµРєС†РёРё
 std::string Parser::getSection()
 {
 	return secName;
 }
 
-// возвращает имя переменной
+// РІРѕР·РІСЂР°С‰Р°РµС‚ РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№
 std::string Parser::getVarName()
 {
 	return varName;
 }
 
-// перегружаю вывод в поток для типа <parseVar_t>
+// РїРµСЂРµРіСЂСѓР¶Р°СЋ РІС‹РІРѕРґ РІ РїРѕС‚РѕРє РґР»СЏ С‚РёРїР° <parseVar_t>
 std::ostream& operator<<(std::ostream& out, const parseVar_t& var)
 {
 	std::visit([&out](auto&& arg) { out << arg; }, var);
