@@ -6,7 +6,7 @@ void Parser::deleteSpace(std::string& str)
 }
 
 // печать буфера в консоль
-void Parser::printBuf(const std::string& s)
+void Parser::printBuf(std::string_view s)
 {
 	consoleCol(14);
 	std::cout<< "\n" << s << "\n";

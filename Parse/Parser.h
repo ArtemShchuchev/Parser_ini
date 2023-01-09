@@ -29,7 +29,7 @@ private:
 	template <>
 	std::string fromChar(std::string s);
 	// печать буфера в консоль
-	void printBuf(const std::string& s);
+	void printBuf(std::string_view s);
 	// убираю лишние, остаются строки содержащие искомую переменную
 	void someCleanBuf();
 
