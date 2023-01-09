@@ -1,11 +1,9 @@
 #include <iostream>
-#include <any>
-#include <typeinfo>
 
-#include "SecondaryFunction.h"
-#include "Parser.h"
+#include "SecondFunk/SecondaryFunction.h"
+#include "Parse/Parser.h"
 
-void prinToCons(Parser&, const std::any&);
+void prinToCons(Parser&, const parseVar_t&);
 
 int main(int argc, char** argv)
 {
@@ -28,7 +26,7 @@ int main(int argc, char** argv)
 	{
 		Parser parser("../test2.ini");
 
-		std::any varValue = parser.get_value<double>("Section1.var1");
+		auto varValue = parser.get_value<double>("Section1.var1");
 		prinToCons(parser, varValue);
 
 		varValue = parser.get_value<int>("Section2.var1");
@@ -59,25 +57,20 @@ int main(int argc, char** argv)
 		std::cout << "\nОшибка! " << err.what() << "\n\n";
 		consoleCol();
 	}
+	catch (const std::bad_variant_access& err)
+	{
+		consoleCol(12);
+		std::cout << "\nОшибка! " << err.what() << "\n\n";
+		consoleCol();
+	}
 
 	return 0;
 }
 
-void prinToCons(Parser& par, const std::any& var)
+void prinToCons(Parser& par, const parseVar_t& var)
 {
 	std::cout << "  <"
 		<< par.getSection() << "."
-		<< par.getVarName() << "=";
-	
-	if (var.type() == typeid(double)) std::cout << std::any_cast<double>(var);
-	else if (var.type() == typeid(int)) std::cout << std::any_cast<int>(var);
-	else if (var.type() == typeid(std::string)) std::cout << std::any_cast<std::string>(var);
-	else
-	{
-		std::string err = "Функция: prinToCons, не хватает поддержки типа: ";
-		err += var.type().name();
-		throw std::runtime_error(err);
-	}
-	
-	std::cout << ">\n";
+		<< par.getVarName() << "="
+		<< var << ">\n";
 }

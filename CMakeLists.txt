@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 project(Parser_ini)
-add_executable(parser main.cpp SecondaryFunction.h SecondaryFunction.cpp Parser.h Parser.cpp)
+add_executable(parser
+	main.cpp
+	SecondFunk/SecondaryFunction.h SecondFunk/SecondaryFunction.cpp
+	Parse/Parser.h Parse/Parser.cpp)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT parser)
 
 # if (Visual Studio) then set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /std:c++17")
