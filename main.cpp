@@ -3,7 +3,6 @@
 #include "SecondFunk/SecondaryFunction.h"
 #include "Parse/Parser.h"
 
-void prinToCons(Parser&, const parseVar_t&);
 
 int main(int argc, char** argv)
 {
@@ -21,22 +20,30 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	*/
-
 	try
 	{
+		// лямбда для вывода в консоль
+		auto print_lambda = [](Parser& par, const parseVar_t& var)
+		{
+			std::cout << "  <"
+				<< par.getSection() << "."
+				<< par.getVarName() << "="
+				<< var << ">\n";
+		};
+
 		Parser parser("../test2.ini");
 
 		auto varValue = parser.get_value<double>("Section1.var1");
-		prinToCons(parser, varValue);
+		print_lambda(parser, varValue);
 
 		varValue = parser.get_value<int>("Section2.var1");
-		prinToCons(parser, varValue);
+		print_lambda(parser, varValue);
 
 		varValue = parser.get_value<std::string>("Section2.var2");
-		prinToCons(parser, varValue);
+		print_lambda(parser, varValue);
 
 		varValue = parser.get_value<double>("Section1.var2");
-		prinToCons(parser, varValue);
+		print_lambda(parser, varValue);
 	}
 	catch (const std::out_of_range& err)
 	{
@@ -63,14 +70,12 @@ int main(int argc, char** argv)
 		std::cout << "\nОшибка! " << err.what() << "\n\n";
 		consoleCol();
 	}
+	catch (...)
+	{
+		consoleCol(12);
+		std::cout << "\nКакая-то ошибка!" << "\n\n";
+		consoleCol();
+	}
 
 	return 0;
-}
-
-void prinToCons(Parser& par, const parseVar_t& var)
-{
-	std::cout << "  <"
-		<< par.getSection() << "."
-		<< par.getVarName() << "="
-		<< var << ">\n";
 }
