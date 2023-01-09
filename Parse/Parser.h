@@ -9,6 +9,7 @@
 
 #include "..\SecondFunk\SecondaryFunction.h"
 
+// создал тип для возврата "variant"
 using parseVar_t = std::variant<int, double, std::string>;
 
 class Parser
@@ -27,7 +28,9 @@ private:
 	// специализация для std::string
 	template <>
 	std::string fromChar(std::string s);
-	void printBuf(const std::string& s);	// печать буфера в консоль
+	// печать буфера в консоль
+	void printBuf(const std::string& s);
+	// убираю лишние, остаются строки содержащие искомую переменную
 	void someCleanBuf();
 
 public:
@@ -35,11 +38,11 @@ public:
 	Parser(std::string&& _fileName);
 	// принимает lvalue, типа переменная
 	Parser(std::string& _fileName);
-
+	// перегружаю вывод в поток для типа <parseVar_t>
 	friend std::ostream& operator<< (std::ostream& out, const parseVar_t& var);
 
 	template <typename T>
-	std::variant<int, double, std::string> get_value(std::string _findStr);
+	parseVar_t get_value(std::string _findStr);
 
 	std::string getSection();
 	std::string getVarName();

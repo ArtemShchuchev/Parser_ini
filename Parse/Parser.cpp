@@ -53,16 +53,6 @@ std::string Parser::getVarName()
 // перегружаю вывод в поток для типа <parseVar_t>
 std::ostream& operator<<(std::ostream& out, const parseVar_t& var)
 {
-	try
-	{
-
 	std::visit([&out](auto&& arg) { out << arg; }, var);
-	}
-	catch (const std::bad_variant_access& err)
-	{
-		consoleCol(12);
-		std::cout << "\nОшибка! " << err.what() << "\n\n";
-		consoleCol();
-	}
 	return out;
 }
