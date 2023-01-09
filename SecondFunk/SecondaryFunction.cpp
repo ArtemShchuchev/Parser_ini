@@ -4,7 +4,7 @@
 void printHeader()
 {
 	using namespace std;
-	setlocale(LC_ALL, "ru_RU.UTF-8");				// задаем русский текст
+	setlocale(LC_ALL, "ru_RU.UTF-8");	// задаем русский текст
 	//system("chcp UTF-8");				// настраиваем кодировку консоли
 	//system("chcp ANSI");				// настраиваем кодировку консоли
 	//system("chcp 1251");				// настраиваем кодировку консоли
