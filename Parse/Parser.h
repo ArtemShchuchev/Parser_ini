@@ -62,15 +62,15 @@ inline T Parser::fromChar(std::string s)
 	{
 		someCleanBuf(); // убираю лишние, остаются строки содержащие искомую переменную
 		printBuf("Текущее значение переменной...");
-		throw std::runtime_error("(fromChar) Переменная <" + secName + '.' + varName + "> не содержит числа!");
+		throw std::runtime_error("Переменная <" + secName + '.' + varName + "> не содержит числа!");
 	}
 	else if (ec == std::errc::result_out_of_range)
 	{
 		someCleanBuf(); // убираю лишние, остаются строки содержащие искомую переменную
 		printBuf("Текущее значение переменной...");
-		throw std::out_of_range("(fromChar) Значение переменной <" + secName + '.' + varName + "> превышает диапазон!");
+		throw std::out_of_range("Значение переменной <" + secName + '.' + varName + "> превышает диапазон!");
 	}
-	else throw std::runtime_error("(fromChar) Не известная ошибка! Переменная <" + secName + '.' + varName + ">!");
+	else throw std::runtime_error("Не известная ошибка! Переменная <" + secName + '.' + varName + ">!");
 }
 // специализация для std::string
 template <>
