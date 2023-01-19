@@ -1,12 +1,10 @@
-#include <iostream>
-
 #include "SecondFunk/SecondaryFunction.h"
 #include "Parse/Parser.h"
 
 
 int main(int argc, char** argv)
 {
-	printHeader();
+	printHeader("Курсовой проект \"Парсер INI-файлов\"");
 	/*
 	if (argc != 4)
 	{
@@ -30,7 +28,7 @@ int main(int argc, char** argv)
 				<< par.getVarName() << "="
 				<< var << ">\n";
 		};
-
+		
 		Parser parser("../test2.ini");
 
 		auto varValue = parser.get_value<double>("Section1.var1");
@@ -45,36 +43,12 @@ int main(int argc, char** argv)
 		varValue = parser.get_value<double>("Section1.var2");
 		print_lambda(parser, varValue);
 	}
-	catch (const std::out_of_range& err)
+	catch (const std::exception& err)
 	{
-		consoleCol(12);
-		std::cout << "\nОшибка! " << err.what() << "\n\n";
-		consoleCol();
-	}
-	catch (const std::bad_alloc& err)
-	{
-		// обработка ошибки выделения памяти
-		consoleCol(12);
-		std::cout << "\nОшибка! " << err.what() << "\n\n";
-		consoleCol();
-	}
-	catch (const std::runtime_error& err)
-	{
-		consoleCol(12);
-		std::cout << "\nОшибка! " << err.what() << "\n\n";
-		consoleCol();
-	}
-	catch (const std::bad_variant_access& err)
-	{
-		consoleCol(12);
-		std::cout << "\nОшибка! " << err.what() << "\n\n";
-		consoleCol();
-	}
-	catch (...)
-	{
-		consoleCol(12);
-		std::cout << "\nКакая-то ошибка!" << "\n\n";
-		consoleCol();
+		consoleCol(col::br_red);
+		std::cout << "\nОшибка типа: " << typeid(err).name() << "\n";
+		std::cout << err.what() << "\n";
+		consoleCol(col::cancel);
 	}
 
 	return 0;

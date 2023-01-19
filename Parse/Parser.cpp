@@ -8,10 +8,10 @@ void Parser::deleteSpace(std::string& str)
 // печать буфера в консоль
 void Parser::printBuf(std::string_view s)
 {
-	consoleCol(14);
+	consoleCol(col::br_yellow);
 	std::cout<< "\n" << s << "\n";
 	for (const auto& val : buf) std::cout << val << "\n";
-	consoleCol();
+	consoleCol(col::cancel);
 }
 
 // убираю лишние, остаются строки содержащие искомую переменную

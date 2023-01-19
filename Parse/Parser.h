@@ -3,11 +3,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include <charconv>
 #include <vector>
 #include <variant>
 
-#include "..\SecondFunk\SecondaryFunction.h"
+#include "../SecondFunk/SecondaryFunction.h"
 
 // создал тип для возврата "variant"
 using parseVar_t = std::variant<int, double, std::string>;
@@ -80,9 +81,9 @@ std::string Parser::fromChar(std::string s)
 
 // ищет и возвращает переменную Т типа
 template<typename T>
-inline parseVar_t Parser::get_value(std::string _findStr)
+inline parseVar_t Parser::get_value(std::string findStr)
 {
-	secName = std::move(_findStr);
+	secName = std::move(findStr);
 	deleteSpace(secName);	// удаляю возможные пробелы в строке поиска
 
 	auto dotPos = secName.find('.');
@@ -91,11 +92,11 @@ inline parseVar_t Parser::get_value(std::string _findStr)
 		varName = secName.substr(dotPos + 1);
 		secName = secName.substr(0, dotPos);
 	}
-	else throw std::runtime_error("Аргумент get_value, ожидается точка разделитель (секция.переменная)!");
+	else throw std::runtime_error("Что искать? Ожидается точка разделитель (секция.переменная)!");
 	if (secName.empty())
-		throw std::runtime_error("Метод get_value не получил имя секции!");
+		throw std::runtime_error("Что искать? Ожидается имя секции (секция.переменная)!");
 	if (varName.empty())
-		throw std::runtime_error("Метод get_value не получил имя переменной!");
+		throw std::runtime_error("Что искать? Ожидается имя переменной (секция.переменная)!");
 
 
 	bool notFindKey_F(true);		// флаг: имя переменной не найдено
