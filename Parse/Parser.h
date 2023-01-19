@@ -35,10 +35,8 @@ private:
 	void someCleanBuf();
 
 public:
-	// принимает rvalue, типа "строка" (временный объект)
-	Parser(std::string&& _fileName);
-	// принимает lvalue, типа переменная
-	Parser(std::string& _fileName);
+	// принимает имя файла в виде строки
+	Parser(std::string _fileName);
 
 	template <typename T>
 	parseVar_t get_value(std::string _findStr);

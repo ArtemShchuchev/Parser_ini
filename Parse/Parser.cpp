@@ -30,11 +30,7 @@ void Parser::someCleanBuf()
 	}
 }
 
-Parser::Parser(std::string&& _fileName) : fileName(std::move(_fileName))
-{
-}
-
-Parser::Parser(std::string& _fileName) : fileName(std::move(_fileName))
+Parser::Parser(std::string _fileName) : fileName(std::move(_fileName))
 {
 }
 
