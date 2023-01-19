@@ -29,9 +29,6 @@ private:
 	// преобразование строки в число типа <T>
 	template <typename T>
 	T fromChar(std::string s);
-	// специализация для std::string
-	//template <>
-	//std::string fromChar(std::string s);
 	// печать буфера в консоль
 	void printBuf(std::string_view s);
 	// убираю лишние, остаются строки содержащие искомую переменную
