@@ -13,6 +13,9 @@
 // создал тип для возврата "variant"
 using parseVar_t = std::variant<int, double, std::string>;
 
+// перегружаю вывод в поток для типа <parseVar_t>
+std::ostream& operator<< (std::ostream& out, const parseVar_t& var);
+
 class Parser
 {
 protected:
@@ -27,8 +30,8 @@ private:
 	template <typename T>
 	T fromChar(std::string s);
 	// специализация для std::string
-	template <>
-	std::string fromChar(std::string s);
+	//template <>
+	//std::string fromChar(std::string s);
 	// печать буфера в консоль
 	void printBuf(std::string_view s);
 	// убираю лишние, остаются строки содержащие искомую переменную
@@ -39,8 +42,6 @@ public:
 	Parser(std::string&& _fileName);
 	// принимает lvalue, типа переменная
 	Parser(std::string& _fileName);
-	// перегружаю вывод в поток для типа <parseVar_t>
-	friend std::ostream& operator<< (std::ostream& out, const parseVar_t& var);
 
 	template <typename T>
 	parseVar_t get_value(std::string _findStr);
@@ -74,7 +75,7 @@ inline T Parser::fromChar(std::string s)
 }
 // специализация для std::string
 template <>
-std::string Parser::fromChar(std::string s)
+inline std::string Parser::fromChar(std::string s)
 {
 	return std::move(s);
 }
