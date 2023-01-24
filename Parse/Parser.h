@@ -95,8 +95,8 @@ inline parseVar_t Parser::get_value(std::string findStr)
 		throw std::runtime_error("Что искать? Ожидается имя переменной (секция.переменная)!");
 
 
-	bool notFindKey_F(true);		// флаг: имя переменной не найдено
-	bool notFindSection_F(true);	// флаг: секция не найдена
+	bool sectionHaveKey_f(false);	// флаг: секция содержит переменную (ключ)
+	bool fileHaveSection_f(false);	// флаг: файл содержит секцию
 	std::string varValue;			// строка содержащая значение переменной
 
 	std::ifstream file(fileName);
@@ -132,16 +132,17 @@ inline parseVar_t Parser::get_value(std::string findStr)
 
 					if (section == secName)	// нашел нужную секцию
 					{
-						// готовлю буфер для хранения переменных из найденной секции
-						if (!buf.empty() && notFindSection_F) buf.clear();
+						// если буфер не пуст и нужная секция обнаружена впервые
+						// очищаю буфер для хранения переменных из искомой секции
+						if (!buf.empty() && !fileHaveSection_f) buf.clear();
 						findVariable_f = true;		// теперь ищу переменную
-						notFindSection_F = false;	// секция найдена, сбрасываю флаг
+						fileHaveSection_f = true;	// файл содержит искомую секцию, устанавливаю флаг
 					}
 					else
 					{
 						findVariable_f = false;		// в этой секции переменные НЕ ищем
-						// если нужную секцию не нашел, сохраняю список секций в файле
-						if (notFindSection_F) buf.push_back(section);
+						// если нужную секцию в файле не нашел, сохраняю список секций в буфере
+						if (!fileHaveSection_f) buf.push_back(section);
 					}
 				}
 				else
@@ -173,7 +174,7 @@ inline parseVar_t Parser::get_value(std::string findStr)
 					deleteSpace(key);	// удаляю возможные пробелы в ключе
 					if (key == varName) // ключ соответствует искомому?
 					{
-						notFindKey_F = false;	// переменная нашлась
+						sectionHaveKey_f = true;	// переменная нашлась
 						// создаю строку от '=' (не включая) до конца строки
 						varValue = line.substr(delimeterPos + 1);
 
@@ -189,7 +190,7 @@ inline parseVar_t Parser::get_value(std::string findStr)
 					// эта строка не содержит переменной или тут ошибка синтаксиса
 					// возможно это строка с комменариями, поэтому удаляю комментарии
 					line.erase(std::find(line.begin(), line.end(), ';'), line.end());
-					deleteSpace(line);	// также удудаляю пробелы, табуляцию...
+					deleteSpace(line);	// также удаляю пробелы, табуляцию...
 					if (line.empty())	// значит - это строка с комментариями или пустая
 					{
 						buf.pop_back();	// убираю лишнюю строку
@@ -203,12 +204,12 @@ inline parseVar_t Parser::get_value(std::string findStr)
 	}
 	else throw std::runtime_error("Не могу открыть файл: " + fileName);
 
-	if (notFindSection_F)
+	if (!fileHaveSection_f)
 	{
 		printBuf("Список найденых секций...");
 		throw std::runtime_error("Файл: " + fileName + " не содержит секцию: " + secName);
 	}
-	if (notFindKey_F)
+	if (!sectionHaveKey_f)
 	{
 		printBuf("Список переменных в секции: " + secName);
 		throw std::runtime_error("Секция: " + secName + ", не содержит переменную: " + varName + "!");
